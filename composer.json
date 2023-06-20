@@ -1,0 +1,13 @@
+{
+    "name": "pikselin/silverstripe-markerio",
+    "type": "silverstripe-vendormodule",
+    "description": "MarkerIO helper for Silverstripe",
+    "require": {
+        "silverstripe/framework": "^4|^5"
+    },
+    "extra": {
+        "expose": [
+            "dist"
+        ]
+    }
+}

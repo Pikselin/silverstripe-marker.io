@@ -1,0 +1,6 @@
+Pikselin\MarkerIO\Services\MarkerIOService:
+  allowed_groups:
+    - administrators
+  allowed_members:
+    - admin
+  show_in_dev: false
