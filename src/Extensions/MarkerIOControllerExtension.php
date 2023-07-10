@@ -36,6 +36,9 @@ MARKERIO
         }
 
         $currentUser = Security::getCurrentUser();
+        if (MarkerIOService::getAllowAnonymous()) {
+            return true;
+        }
 
         if ($currentUser) {
             $allowedUsers = MarkerIOService::getAllowedMembers();

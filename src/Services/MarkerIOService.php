@@ -29,7 +29,17 @@ class MarkerIOService
      */
     protected static $allowed_groups;
 
+    /**
+     * @config
+     * @var bool show the widget in dev
+     */
     protected static $show_in_dev;
+
+    /**
+     * @config
+     * @var bool Allow anonymous access?
+     */
+    protected static $allow_anonymous;
 
     /**
      * @return mixed
@@ -78,4 +88,17 @@ class MarkerIOService
 
         return self::$show_in_dev;
     }
+
+    /**
+     * @return bool
+     */
+    public static function getAllowAnonymous(): bool
+    {
+        if (self::$allow_anonymous === null) {
+            self::$allow_anonymous = self::config()->get('allow_anonymous') ?? false;
+        }
+
+        return self::$allow_anonymous;
+    }
+
 }
