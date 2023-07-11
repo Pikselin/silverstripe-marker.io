@@ -3,11 +3,12 @@
 namespace Pikselin\MarkerIO\Services;
 
 use SilverStripe\Core\Config\Configurable;
+use SilverStripe\Security\PermissionProvider;
 
 /**
  * Tiny MarkerIO helper for configs
  */
-class MarkerIOService
+class MarkerIOService implements PermissionProvider
 {
     use Configurable;
 
@@ -42,7 +43,8 @@ class MarkerIOService
     protected static $allow_anonymous;
 
     /**
-     * @return mixed
+     * Get specific members that are allowed
+     * @return array
      */
     public static function getAllowedMembers()
     {
@@ -54,7 +56,8 @@ class MarkerIOService
     }
 
     /**
-     * @return mixed
+     * Get the allowed groups
+     * @return array
      */
     public static function getAllowedGroups()
     {
@@ -66,6 +69,7 @@ class MarkerIOService
     }
 
     /**
+     * Marker.IO "destination" key
      * @return string
      */
     public static function getDestination(): string
@@ -78,7 +82,8 @@ class MarkerIOService
     }
 
     /**
-     * @return mixed
+     * Should show always when in dev?
+     * @return bool
      */
     public static function getShowInDev()
     {
@@ -90,6 +95,7 @@ class MarkerIOService
     }
 
     /**
+     * Allow anonymous access?
      * @return bool
      */
     public static function getAllowAnonymous(): bool
@@ -101,4 +107,15 @@ class MarkerIOService
         return self::$allow_anonymous;
     }
 
+    public function providePermissions()
+    {
+        return [
+            'MARKERIO_GRANT_ACCESS' => [
+                'name'     => _t(__CLASS__ . '.PERMISSION_GRANTACCESS_DESCRIPTION', 'Use Marker.IO'),
+                'help'     => _t(__CLASS__ . '.PERMISSION_GRANTACCESS_HELP', 'Allow submitting bug/feature requests via Marker.IO.'),
+                'category' => _t(__CLASS__ . '.PERMISSIONS_CATEGORY', 'MarkerIO'),
+                'sort'     => 10
+            ],
+        ];
+    }
 }

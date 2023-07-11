@@ -19,6 +19,7 @@ Pikselin\MarkerIO\Services\MarkerIOService:
     allowed_members:
         - admin
     show_in_dev: false
+    allow_anonymous: false
 ```
 
 Allowed groups and allowed members are optional.
@@ -33,3 +34,9 @@ allowed_groups:
 ```
 
 (note the `'` quotes!)
+
+## Permissions
+
+A user can also be granted access to the widget, via the CMS.
+
+It is a specific permission which can be set per-user.

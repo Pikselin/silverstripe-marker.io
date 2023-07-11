@@ -5,6 +5,7 @@ namespace Pikselin\MarkerIO\Extensions;
 use Pikselin\MarkerIO\Services\MarkerIOService;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Extension;
+use SilverStripe\Security\Permission;
 use SilverStripe\Security\Security;
 use SilverStripe\View\Requirements;
 
@@ -38,18 +39,23 @@ MARKERIO
         if (MarkerIOService::getAllowAnonymous()) {
             return true;
         }
+
         $currentUser = Security::getCurrentUser();
 
         if ($currentUser) {
-            $allowedUsers = MarkerIOService::getAllowedMembers();
-            if ($allowedUsers && in_array($currentUser->Email, $allowedUsers)) {
+            // Check permission via config allowed users
+            $allowedUsers = MarkerIOService::getAllowedMembers() ?? [];
+            if (in_array($currentUser->Email, $allowedUsers) || in_array('*', $allowedUsers)) {
                 return true;
             }
-            $groups = MarkerIOService::getAllowedGroups();
-            if ($groups && $currentUser->inGroups($groups)) {
+            // Check permission via config allowed groups
+            $groups = MarkerIOService::getAllowedGroups() ?? [];
+            if ($currentUser->inGroups($groups) || in_array('*', $groups)) {
                 return true;
             }
-            if ($allowedUsers[0] === '*' || $groups[0] === '*') {
+            // Check permission via the CMS
+            $permission = Permission::check('MARKERIO_GRANT_ACCESS', [], $currentUser);
+            if ($permission !== false) {
                 return true;
             }
         }
