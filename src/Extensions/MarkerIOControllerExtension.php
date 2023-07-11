@@ -31,14 +31,14 @@ MARKERIO
      */
     private function shouldShow(): bool
     {
-        if (Director::isDev()) {
-            return MarkerIOService::getShowInDev();
+        if (Director::isDev() && MarkerIOService::getShowInDev()) {
+            return true;
         }
 
-        $currentUser = Security::getCurrentUser();
         if (MarkerIOService::getAllowAnonymous()) {
             return true;
         }
+        $currentUser = Security::getCurrentUser();
 
         if ($currentUser) {
             $allowedUsers = MarkerIOService::getAllowedMembers();
