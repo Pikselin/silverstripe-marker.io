@@ -1,3 +1,6 @@
+---
+Name: PikselinMarkerIO
+---
 Pikselin\MarkerIO\Services\MarkerIOService:
   allowed_groups:
     - administrators
